@@ -1,0 +1,32 @@
+		<TxInfAndSts xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.002.001.03S2">
+			<StsId>VSCT0909290000150909280000000000001</StsId>
+			<OrgnlEndToEndId>REF VRAC3-4</OrgnlEndToEndId>
+			<OrgnlTxId><?= $opparams['pmtid'] ?></OrgnlTxId>
+			<TxSts>RJCT</TxSts>
+			<StsRsnInf>
+				<Orgtr>
+					<Id>
+						<OrgId>
+							<BICOrBEI>ZYDOFRP0</BICOrBEI>
+						</OrgId>
+					</Id>
+				</Orgtr>
+				<Rsn>
+					<Prtry>PY01</Prtry>
+				</Rsn>
+			</StsRsnInf>
+			<OrgnlTxRef>
+				<IntrBkSttlmAmt Ccy="EUR"><?= $opparams['amt'] ?></IntrBkSttlmAmt>
+				<IntrBkSttlmDt>2006-06-07</IntrBkSttlmDt>
+				<DbtrAgt>
+					<FinInstnId>
+						<BIC>BNPAFRPPXXX</BIC>
+					</FinInstnId>
+				</DbtrAgt>
+                                <CdtrAgt>
+                                        <FinInstnId>
+                                                <BIC>AGFBFRCCXXX</BIC>
+                                        </FinInstnId>
+                                </CdtrAgt>
+			</OrgnlTxRef>
+		</TxInfAndSts>

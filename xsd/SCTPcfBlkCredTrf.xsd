@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- STEP2 SCT Schema, SCTPcfBlkCredTrf, Jul 15th 2013, Release February 2014 -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:sw5="urn:iso:std:iso:20022:tech:xsd:pacs.002.001.03S2" xmlns:S2SCTPcf="urn:S2SCTPcf:xsd:$SCTPcfBlkCredTrf" targetNamespace="urn:S2SCTPcf:xsd:$SCTPcfBlkCredTrf" elementFormDefault="qualified">
+	<xs:import namespace="urn:iso:std:iso:20022:tech:xsd:pacs.002.001.03S2" schemaLocation="pacs.002.001.03S2.xsd"/>
+	<xs:element name="SCTPcfBlkCredTrf">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="SndgInst" type="sw5:BICIdentifier"/>
+				<xs:element name="RcvgInst" type="sw5:BICIdentifier"/>
+				<xs:element name="SrvcId" type="S2SCTPcf:SrvcID"/>
+				<xs:element name="TstCode" type="S2SCTPcf:TestCodeType"/>
+				<xs:element name="FType" type="S2SCTPcf:FTpType"/>
+				<xs:element name="FileRef" type="sw5:Max16Text"/>
+				<xs:element name="FileBusDt" type="sw5:ISODate"/>
+				<xs:element name="FileCycleNo" type="S2SCTPcf:Max2NumericText"/>
+				<xs:element name="FIToFIPmtStsRptS2" type="sw5:FIToFIPaymentStatusReportV03" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="FTpType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PCF"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TestCodeType">
+		<xs:restriction base="xs:string">
+			<xs:length value="1"/>
+			<xs:enumeration value="T"/>
+			<xs:enumeration value="P"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SrvcID">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="SCT"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Max2NumericText">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{2,2}"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

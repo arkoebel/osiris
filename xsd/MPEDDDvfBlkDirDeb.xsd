@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- STEP2 SDD Schema, MPEDDDvfBlkDirDeb, Mar 17th 2014, Release November 2014 -->
+<!-- STEP2 Renamed pacs.002.001.03S2 to FIToFIPmtStsRptS2, March 29th 2010 -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:sw5="urn:iso:std:iso:20022:tech:xsd:pacs.002.001.03S2" xmlns:S2SDDDvf="urn:S2SDDDvf:xsd:$MPEDDDvfBlkDirDeb" targetNamespace="urn:S2SDDDvf:xsd:$MPEDDDvfBlkDirDeb" elementFormDefault="qualified">
+	<xs:import namespace="urn:iso:std:iso:20022:tech:xsd:pacs.002.001.03S2" schemaLocation="pacs.002.001.03S2.xsd"/>
+	<xs:element name="MPEDDDvfBlkDirDeb">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="SndgInst" type="sw5:BICIdentifier"/>
+				<xs:element name="RcvgInst" type="sw5:BICIdentifier"/>
+				<xs:element name="SrvcId" type="S2SDDDvf:SrvcID"/>
+				<xs:element name="TstCode" type="S2SDDDvf:TestCodeType"/>
+				<xs:element name="FType" type="S2SDDDvf:FTpType"/>
+				<xs:element name="FileRef" type="sw5:Max16Text"/>
+				<xs:element name="FileDtTm" type="sw5:ISODateTime"/>
+				<xs:element name="OrigFRef" type="sw5:Max16Text" minOccurs="0"/>
+				<xs:element name="OrigFName" type="S2SDDDvf:Max32Text"/>
+				<xs:element name="OrigDtTm" type="sw5:ISODateTime" minOccurs="0"/>
+				<xs:element name="IdfErrCd" type="S2SDDDvf:Text3"/>
+				<xs:element name="FileBusDt" type="sw5:ISODate"/>
+				<xs:element name="FileCycleNo" type="S2SDDDvf:Max2NumericText"/>
+				<xs:element name="FIToFIPmtStsRptS2" type="sw5:FIToFIPaymentStatusReportV03" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="Max32Text">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="32"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Text3">
+		<xs:restriction base="xs:string">
+			<xs:length value="3" fixed="true"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="FTpType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="DVF"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TestCodeType">
+		<xs:restriction base="xs:string">
+			<xs:length value="1"/>
+			<xs:enumeration value="T"/>
+			<xs:enumeration value="P"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SrvcID">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="COR"/>
+			<xs:enumeration value="B2B"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Max2NumericText">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{2,2}"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

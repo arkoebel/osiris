@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- STEP2 SCT Schema, SCTScfBlkCredTrf, Jul 15th 2013, Release February 2014 -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:sw8="urn:iso:std:iso:20022:tech:xsd:pacs.008.001.02" xmlns:sw4="urn:iso:std:iso:20022:tech:xsd:pacs.004.001.02" xmlns:sw6="urn:iso:std:iso:20022:tech:xsd:camt.056.001.01" xmlns:sw9="urn:iso:std:iso:20022:tech:xsd:camt.029.001.03" xmlns:S2SCTScf="urn:S2SCTScf:xsd:$SCTScfBlkCredTrf" targetNamespace="urn:S2SCTScf:xsd:$SCTScfBlkCredTrf" elementFormDefault="qualified">
+	<xs:import namespace="urn:iso:std:iso:20022:tech:xsd:pacs.008.001.02" schemaLocation="pacs.008.001.02.xsd"/>
+	<xs:import namespace="urn:iso:std:iso:20022:tech:xsd:pacs.004.001.02" schemaLocation="pacs.004.001.02.xsd"/>
+	<xs:import namespace="urn:iso:std:iso:20022:tech:xsd:camt.056.001.01" schemaLocation="camt.056.001.01.xsd"/>
+	<xs:import namespace="urn:iso:std:iso:20022:tech:xsd:camt.029.001.03" schemaLocation="camt.029.001.03.xsd"/>
+	<xs:element name="SCTScfBlkCredTrf">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="SndgInst" type="sw8:BICIdentifier"/>
+				<xs:element name="RcvgInst" type="sw8:BICIdentifier"/>
+				<xs:element name="SrvcId" type="S2SCTScf:SrvcID"/>
+				<xs:element name="TstCode" type="S2SCTScf:TestCodeType"/>
+				<xs:element name="FType" type="S2SCTScf:FTpType"/>
+				<xs:element name="FileRef" type="sw8:Max16Text"/>
+				<xs:element name="RoutingInd" type="S2SCTScf:RoutingInd"/>
+				<xs:element name="FileBusDt" type="sw8:ISODate"/>
+				<xs:element name="FileCycleNo" type="S2SCTScf:Max2NumericText"/>
+				<xs:element name="FIToFICstmrCdtTrf" type="sw8:FIToFICustomerCreditTransferV02" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="PmtRtr" type="sw4:PaymentReturnV02" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="FIToFIPmtCxlReq" type="sw6:S2SCTFIToFIPaymentCancellationRequestV01" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="RsltnOfInvstgtn" type="sw9:S2SCTResolutionOfInvestigationV03" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="RoutingInd">
+		<xs:restriction base="xs:string">
+			<xs:length value="3" fixed="true"/>
+			<xs:enumeration value="DIR"/>
+			<xs:enumeration value="IND"/>
+			<xs:enumeration value="RET"/>
+			<xs:enumeration value="ALL"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="FTpType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="SCF"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TestCodeType">
+		<xs:restriction base="xs:string">
+			<xs:length value="1"/>
+			<xs:enumeration value="T"/>
+			<xs:enumeration value="P"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SrvcID">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="SCT"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Max2NumericText">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{2,2}"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

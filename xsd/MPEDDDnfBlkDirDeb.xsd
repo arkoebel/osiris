@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- STEP2 SDD Schema, MPEDDDnfBlkDirDeb, Mar 17th 2014, Release November 2014 -->
+<!-- STEP2 SDD Shift camt.056 after pacs.003 in sequence and counter, February 25th 2010 -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:sw3="urn:iso:std:iso:20022:tech:xsd:pacs.003.001.02" xmlns:sw2="urn:iso:std:iso:20022:tech:xsd:pacs.002.001.03" xmlns:sw6="urn:iso:std:iso:20022:tech:xsd:camt.056.001.01" xmlns:sw4="urn:iso:std:iso:20022:tech:xsd:pacs.004.001.02" xmlns:sw7="urn:iso:std:iso:20022:tech:xsd:pacs.007.001.02" xmlns:S2SDDDnf="urn:S2SDDDnf:xsd:$MPEDDDnfBlkDirDeb" targetNamespace="urn:S2SDDDnf:xsd:$MPEDDDnfBlkDirDeb" elementFormDefault="qualified">
+	<xs:import namespace="urn:iso:std:iso:20022:tech:xsd:pacs.003.001.02" schemaLocation="pacs.003.001.02.xsd"/>
+	<xs:import namespace="urn:iso:std:iso:20022:tech:xsd:pacs.002.001.03" schemaLocation="pacs.002.001.03.xsd"/>
+	<xs:import namespace="urn:iso:std:iso:20022:tech:xsd:camt.056.001.01" schemaLocation="camt.056.001.01.xsd"/>
+	<xs:import namespace="urn:iso:std:iso:20022:tech:xsd:pacs.004.001.02" schemaLocation="pacs.004.001.02.xsd"/>
+	<xs:import namespace="urn:iso:std:iso:20022:tech:xsd:pacs.007.001.02" schemaLocation="pacs.007.001.02.xsd"/>
+	<xs:element name="MPEDDDnfBlkDirDeb">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="SndgInst" type="sw3:BICIdentifier"/>
+				<xs:element name="RcvgInst" type="sw3:BICIdentifier"/>
+				<!-- changed from SrvcID to SrvcId, Febrary 12 2009 -->
+				<xs:element name="SrvcId" type="S2SDDDnf:SrvcID"/>
+				<xs:element name="TstCode" type="S2SDDDnf:TestCodeType"/>
+				<xs:element name="FType" type="S2SDDDnf:FTpType"/>
+				<xs:element name="FileRef" type="S2SDDDnf:Max16Text"/>
+				<xs:element name="FileBusDt" type="sw2:ISODate"/>
+				<xs:element name="RoutingInd" type="S2SDDDnf:RoutingInd"/>
+				<xs:element name="FileCycleNo" type="S2SDDDnf:Max2NumericText"/>
+				<xs:element name="NumDDBlk" type="S2SDDDnf:Max8NumericText"/>
+				<xs:element name="NumPCRBlk" type="S2SDDDnf:Max8NumericText"/>
+				<xs:element name="NumREJBlk" type="S2SDDDnf:Max8NumericText"/>
+				<!--added NumRETBlk and NumREVBlk, Marzo 17th 2014 -->
+				<xs:element name="NumRETBlk" type="S2SDDDnf:Max8NumericText"/>
+				<xs:element name="NumREVBlk" type="S2SDDDnf:Max8NumericText"/>
+				<xs:element name="FIToFICstmrDrctDbt" type="sw3:FIToFICustomerDirectDebitV02" minOccurs="0" maxOccurs="unbounded"/>
+				<!--camt.056.001.01 replace pacs.006.001.02, January 20th 2010 -->
+				<xs:element name="FIToFIPmtCxlReq" type="sw6:FIToFIPaymentCancellationRequestV01" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="FIToFIPmtStsRpt" type="sw2:FIToFIPaymentStatusReportV03" minOccurs="0" maxOccurs="unbounded"/>
+				<!--added pacs.004 and pacs.007, March 17th 2014 -->
+				<xs:element name="PmtRtr" type="sw4:PaymentReturnV02" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="FIToFIPmtRvsl" type="sw7:FIToFIPaymentReversalV02" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="Max16Text">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9A-Z]{16,16}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SrvcID">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="COR"/>
+			<xs:enumeration value="B2B"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="FTpType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="DNF"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TestCodeType">
+		<xs:restriction base="xs:string">
+			<xs:length value="1"/>
+			<xs:enumeration value="T"/>
+			<xs:enumeration value="P"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Max8NumericText">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{1,8}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RoutingInd">
+		<xs:restriction base="xs:string">
+			<xs:length value="3" fixed="true"/>
+			<xs:enumeration value="DIR"/>
+			<xs:enumeration value="IND"/>
+			<xs:enumeration value="ALL"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Max2NumericText">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{2,2}"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
