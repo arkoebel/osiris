@@ -1,0 +1,57 @@
+<S2SCTCvf:FIToFIPmtStsRptS2 xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.002.001.03S2" xmlns:S2SCTCvf="urn:S2SCTCvf:xsd:$SCTCvfBlkCredTrf">
+		<GrpHdr>
+			<MsgId>VSCT<?= gmdate('ymd') . str_pad(rand(1,1000000000000000000000000),25,'0',STR_PAD_LEFT)?></MsgId>
+			<CreDtTm><?= gmdate('Y-m-d\Th:i:s\Z') ?></CreDtTm>
+		</GrpHdr>
+		<OrgnlGrpInfAndSts>
+			<OrgnlMsgId><?= $params['id']?></OrgnlMsgId>
+			<OrgnlMsgNmId>pacs.008</OrgnlMsgNmId>
+			<OrgnlNbOfTxs>1</OrgnlNbOfTxs>
+			<OrgnlCtrlSum>7.45</OrgnlCtrlSum>
+			<GrpSts>RJCT</GrpSts>
+			<StsRsnInf>
+				<Orgtr>
+					<Id>
+						<OrgId>
+							<BICOrBEI>ZYDOFRP0</BICOrBEI>
+						</OrgId>
+					</Id>
+				</Orgtr>
+				<Rsn>
+					<Prtry>B09</Prtry>
+				</Rsn>
+			</StsRsnInf>
+		</OrgnlGrpInfAndSts>
+		<TxInfAndSts>
+			<StsId>VSCT0909290000150909280000000000001</StsId>
+			<OrgnlEndToEndId>REF VRAC3-4</OrgnlEndToEndId>
+			<OrgnlTxId>identtxid</OrgnlTxId>
+			<TxSts>RJCT</TxSts>
+			<StsRsnInf>
+				<Orgtr>
+					<Id>
+						<OrgId>
+							<BICOrBEI>ZYDOFRP0</BICOrBEI>
+						</OrgId>
+					</Id>
+				</Orgtr>
+				<Rsn>
+					<Prtry>PY01</Prtry>
+				</Rsn>
+			</StsRsnInf>
+			<OrgnlTxRef>
+				<IntrBkSttlmAmt Ccy="<?= $params['cur']?>"><?= $params['amt']?></IntrBkSttlmAmt>
+				<IntrBkSttlmDt>2006-06-07</IntrBkSttlmDt>
+				<DbtrAgt>
+					<FinInstnId>
+						<BIC><?= $params['BIC']?></BIC>
+					</FinInstnId>
+				</DbtrAgt>
+                                <CdtrAgt>
+                                        <FinInstnId>
+                                                <BIC><?= $params['BIC']?></BIC>
+                                        </FinInstnId>
+                                </CdtrAgt>
+			</OrgnlTxRef>
+		</TxInfAndSts>
+	</S2SCTCvf:FIToFIPmtStsRptS2>

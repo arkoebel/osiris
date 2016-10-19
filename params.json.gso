@@ -1,0 +1,139 @@
+{ 
+  "errorHeaderTemplate": "errheader.xml",
+  "outHeaderTemplate": "outheader.xml",
+  "rules": [
+    {
+        "comment": "multi DDR R1",
+        "fail": "yes",
+        "template": "MultiDDR1part.xml",
+        "params": [
+            {
+                "name":"id",
+                "value": "a:GrpHdr/a:MsgId"
+            },
+            {
+                "name":"NbOfTxs",
+                "value": "a:GrpHdr/a:NbOfTxs"
+            },
+            {
+                "name":"CtrlSum",
+                "value": "a:GrpHdr/a:TtlIntrBkSttlmAmt"
+            }
+        ],
+        "rule": "$params['NbOfTxs']==='2' && $params['CtrlSum']==='2'"
+    },
+    {
+        "comment": "multi DDR R2",
+        "fail": "no",
+        "template": "MultiDDR2.xml",
+        "params": [
+            {
+                "name":"id",
+                "value": "a:GrpHdr/a:MsgId"
+            },
+            {
+                "name":"NbOfTxs",
+                "value": "a:GrpHdr/a:NbOfTxs"
+            },
+            {
+                "name":"CtrlSum",
+                "value": "a:GrpHdr/a:TtlIntrBkSttlmAmt"
+            }
+        ],
+        "rule": "$params['NbOfTxs']==='5' && $params['CtrlSum']==='11.45'"
+    },
+    {
+        "comment": "multi DDR R3",
+        "fail": "yes",
+        "template": "MultiDDR3.xml",
+        "params": [
+            {
+                "name":"id",
+                "value": "a:GrpHdr/a:MsgId"
+            },
+            {
+                "name":"NbOfTxs",
+                "value": "a:GrpHdr/a:NbOfTxs"
+            },
+            {
+                "name":"CtrlSum",
+                "value": "a:GrpHdr/a:TtlIntrBkSttlmAmt"
+            }
+        ],
+        "rule": "$params['NbOfTxs']==='1' && $params['CtrlSum']==='6.5'"
+    },
+    {
+        "comment": "montant 63 euros",
+        "fail": "yes",
+        "template": "rule_KO_montant.xml",
+        "params": [
+            {
+                "name":"id",
+                "value": "a:GrpHdr/a:MsgId"
+            },
+            {
+                "name":"amt",
+                "value": "a:CdtTrfTxInf/a:IntrBkSttlmAmt"
+            },
+            {
+                "name":"cur",
+                "value": "a:CdtTrfTxInf/a:IntrBkSttlmAmt/@Ccy"
+            },
+            {
+                "name":"BIC",
+                "value":"a:GrpHdr/a:InstgAgt/a:FinInstnId/a:BIC"
+            }
+        ],
+        "rule": "$params['amt']==='63' && $params['cur']==='EUR'"
+    },
+    {
+        "comment": "rule pass",
+        "fail": "no",
+        "params": [
+            {
+                "name":"id",
+                "value": "a:GrpHdr/a:MsgId"
+            }
+        ],
+        "rule": "$params['id']==='2016071913503467324730'"
+    },
+    {
+        "comment": "BIC BDFE et ref 2",
+        "fail": "no",
+        "params": [
+            {
+                "name":"id",
+                "value": "a:GrpHdr/a:MsgId"
+            },
+            {
+                "name":"BIC",
+                "value":"a:GrpHdr/a:InstgAgt/a:FinInstnId/a:BIC"
+            }
+        ],
+        "rule": "substr($params['id'],21,1)==='2' && $params['BIC']==='BDFEFRP0'"
+    },
+    {
+        "comment": "BIC BDFE et ref 9",
+        "fail": "yes",
+        "template": "rule2.xml",
+        "params": [
+            {
+                "name":"id",
+                "value": "a:GrpHdr/a:MsgId"
+            },
+            {
+                "name":"BIC",
+                "value":"a:GrpHdr/a:InstgAgt/a:FinInstnId/a:BIC"
+            }
+        ],
+        "rule": "intval($params['id'])%10==9 && $params['BIC']==='BDFEFRP0'"
+    },
+    {
+        "comment": "default rule",
+        "fail": "no",
+        "params": [
+        ],
+        "rule": "true"
+    }
+  ]
+}

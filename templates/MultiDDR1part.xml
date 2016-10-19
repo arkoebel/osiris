@@ -1,0 +1,56 @@
+<S2SCTCvf:FIToFIPmtStsRptS2 xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.002.001.03S2" xmlns:S2SCTCvf="urn:S2SCTCvf:xsd:$SCTCvfBlkCredTrf">
+		<GrpHdr>
+			<MsgId>VSCT<?= gmdate('ymd') . str_pad(rand(1,1000000000000000000000000),25,'0',STR_PAD_LEFT)?></MsgId>
+			<CreDtTm><?= gmdate('Y-m-d\Th:i:s\Z') ?></CreDtTm>
+		</GrpHdr>
+		<OrgnlGrpInfAndSts>
+			<OrgnlMsgId><?= $params['id']?></OrgnlMsgId>
+			<OrgnlMsgNmId>pacs.008</OrgnlMsgNmId>
+			<OrgnlNbOfTxs><?= $params['NbOfTxs']?></OrgnlNbOfTxs>
+			<OrgnlCtrlSum><?= $params['CtrlSum']?></OrgnlCtrlSum>
+      <GrpSts>PART</GrpSts>
+      <StsRsnInf>
+        <Orgtr><Id><OrgId><BICOrBEI>ZYDOFRP0</BICOrBEI></OrgId></Id></Orgtr>
+        <Rsn>
+          <Prtry>B01</Prtry>
+        </Rsn>
+      </StsRsnInf>
+      <NbOfTxsPerSts>
+        <DtldNbOfTxs>1</DtldNbOfTxs>
+        <DtldSts>ACCP</DtldSts>
+        <DtldCtrlSum>1</DtldCtrlSum>
+      </NbOfTxsPerSts>
+      <NbOfTxsPerSts>
+        <DtldNbOfTxs>1</DtldNbOfTxs>
+        <DtldSts>RJCT</DtldSts>
+        <DtldCtrlSum>1</DtldCtrlSum>
+      </NbOfTxsPerSts>
+    </OrgnlGrpInfAndSts>
+    <TxInfAndSts>
+      <StsId>StsIdSur35X</StsId>
+      <OrgnlInstrId>IID-004-001-SCT-CDC-STP2-2016-03-03</OrgnlInstrId>
+      <OrgnlEndToEndId>EId-004-01-SCT-CDC-STEP2-2016-03-03</OrgnlEndToEndId>
+      <OrgnlTxId>TId-004-01-SCT-CDC-STEP2-2016-03-03</OrgnlTxId>
+      <TxSts>RJCT</TxSts>
+      <StsRsnInf>
+        <Orgtr><Id><OrgId><BICOrBEI>ZYDOFRP0</BICOrBEI></OrgId></Id></Orgtr>
+        <Rsn>
+          <Prtry>XD19</Prtry>
+        </Rsn>
+      </StsRsnInf>
+      <OrgnlTxRef>
+        <IntrBkSttlmAmt Ccy="EUR">1</IntrBkSttlmAmt>
+        <IntrBkSttlmDt>2016-04-01</IntrBkSttlmDt>
+        <DbtrAgt>
+          <FinInstnId>
+            <BIC>CDCGFRPPXXX</BIC>
+          </FinInstnId>
+        </DbtrAgt>
+        <CdtrAgt>
+          <FinInstnId>
+            <BIC>CCVIIT22XXX</BIC>
+          </FinInstnId>
+        </CdtrAgt>
+      </OrgnlTxRef>
+    </TxInfAndSts>
+</S2SCTCvf:FIToFIPmtStsRptS2>

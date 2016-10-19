@@ -2,12 +2,11 @@
 <!-- STEP2 SCT Schema, SCTIcfBlkCredTrf, Jul 15th 2013, Release February 2014 -->
 <!-- STEP2 SCT Shift camt.056 after pacs.008 in sequence and counter, February 25 2010 -->
 <!-- STEP2 SCT Changed SrvcID into SrvcId, March 02 2010 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:sw8="urn:iso:std:iso:20022:tech:xsd:pacs.008.001.02" xmlns:sw4="urn:iso:std:iso:20022:tech:xsd:pacs.004.001.02" xmlns:sw6="urn:iso:std:iso:20022:tech:xsd:camt.056.001.01" xmlns:sw9="urn:iso:std:iso:20022:tech:xsd:camt.029.001.03" xmlns:swA="urn:iso:std:iso:20022:tech:xsd:acmt.022.001.02" xmlns:S2SCTIcf="urn:S2SCTIcf:xsd:$SCTIcfBlkCredTrf" targetNamespace="urn:S2SCTIcf:xsd:$SCTIcfBlkCredTrf" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:sw8="urn:iso:std:iso:20022:tech:xsd:pacs.008.001.02" xmlns:sw4="urn:iso:std:iso:20022:tech:xsd:pacs.004.001.02" xmlns:sw6="urn:iso:std:iso:20022:tech:xsd:camt.056.001.01" xmlns:sw9="urn:iso:std:iso:20022:tech:xsd:camt.029.001.03" xmlns:S2SCTIcf="urn:S2SCTIcf:xsd:$SCTIcfBlkCredTrf" targetNamespace="urn:S2SCTIcf:xsd:$SCTIcfBlkCredTrf" elementFormDefault="qualified">
 	<xs:import namespace="urn:iso:std:iso:20022:tech:xsd:pacs.008.001.02" schemaLocation="pacs.008.001.02.xsd"/>
 	<xs:import namespace="urn:iso:std:iso:20022:tech:xsd:pacs.004.001.02" schemaLocation="pacs.004.001.02.xsd"/>
 	<xs:import namespace="urn:iso:std:iso:20022:tech:xsd:camt.056.001.01" schemaLocation="camt.056.001.01.xsd"/>
 	<xs:import namespace="urn:iso:std:iso:20022:tech:xsd:camt.029.001.03" schemaLocation="camt.029.001.03.xsd"/>
-	<xs:import namespace="urn:iso:std:iso:20022:tech:xsd:acmt.022.001.02" schemaLocation="acmt.022.001.02.xsd"/>
 	<xs:element name="SCTIcfBlkCredTrf">
 		<xs:complexType>
 			<xs:sequence>
@@ -26,7 +25,6 @@
 				<xs:element name="FIToFIPmtCxlReq" type="sw6:S2SCTFIToFIPaymentCancellationRequestV01" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element name="PmtRtr" type="sw4:PaymentReturnV02" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element name="RsltnOfInvstgtn" type="sw9:S2SCTResolutionOfInvestigationV03" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element name="IdModAdvc" type="swA:S2SCTIdentificationModificationAdviceV02" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>

@@ -1,54 +1,37 @@
 {
-	"structures" : [ {
-			"name" : "SCTIcfBlkCredTrf",
-			"namespace" : "urn:S2SCTIcf:xsd:$SCTIcfBlkCredTrf",
-			"schema" : "SCTIcfBlkCredTrf.xsd",
-			"outnamespace" : "urn:S2SCTCvf:xsd:$SCTCvfBlkCredTrf",
-			"outschema" : "SCTCvfBlkCredTrf.xsd",
-			"outroot" : "SCTCvfBlkCredTrf",
-			"bulks" : [ {
-					"name" : "CTBlk",
-					"element" : "FIToFICstmrCdtTrf",
-					"namespace" : "urn:iso:std:iso:20022:tech:xsd:pacs.008.001.02",
-					"operationelement": "a:CdtTrfTxInf",
-					"outoperationelement" : "TxInfAndSts",
-					"outelement" : "FIToFIPmtStsRptS2",
-					"outnamespace" : "urn:iso:std:iso:20022:tech:xsd:pacs.002.001.03S2"
-				},{
-					"name" : "PCRBlk",
-					"element" : "FIToFIPmtCxlReq",
-					"namespace" : "urn:iso:std:iso:20022:tech:xsd:camt.056.001.01",
-					"operationelement": "a:Undrlyg/a:TxInf",
-					"outoperationelement" : "TxInfAndSts",
-					"outelement" : "FIToFIPmtStsRptS2",
-					"outnamespace" : "urn:iso:std:iso:20022:tech:xsd:pacs.002.001.03S2"
-				},{
-					"name" : "RFRBlk",
-					"element" : "PmtRtr",
-					"namespace" : "urn:iso:std:iso:20022:tech:xsd:pacs.004.001.02",
-					"operationelement": "a:TxInf",
-					"outoperationelement" : "TxInfAndSts",
-					"outelement" : "FIToFIPmtStsRptS2",
-					"outnamespace" : "urn:iso:std:iso:20022:tech:xsd:pacs.002.001.03S2"
-				},{
-					"name" : "ROIBlk",
-					"element" : "RsltnOfInvstgtn",
-					"namespace" : "urn:iso:std:iso:20022:tech:xsd:camt.029.001.03",
-					"operationelement": "a:CxlDtls/a:TxInfAndSts",
-					"outoperationelement" : "TxInfAndSts",
-					"outelement" : "FIToFIPmtStsRptS2",
-					"outnamespace" : "urn:iso:std:iso:20022:tech:xsd:pacs.002.001.03S2"
-				},{
-					"name" : "IMABlk",
-					"element" : "IdModAdvc",
-					"namespace" : "urn:iso:std:iso:20022:tech:xsd:acmt.022.001.02",
-					"operationelement": "a:Mod",
-					"outoperationelement" : "TxInfAndSts",
-					"outelement" : "FIToFIPmtStsRptS2",
-					"outnamespace" : "urn:iso:std:iso:20022:tech:xsd:pacs.002.001.03S2"
-				}]}
+	"brules" : [{
+			"comment" : "rule pass",
+			"fail" : "no",
+			"params" : [{
+					"name" : "id",
+					"value" : "a:GrpHdr/a:MsgId"
+				}
 			],
-	"brules" : [
+			"rule" : "$params['id']==='2016071913503467324730'"
+		},
+		{
+			"comment": "reject whole bulk - error in nbOperations - B03",
+			"fail": "yes",
+			"template": "reject_bulk_tot_B03.xml",
+			"params": [
+			{
+				"name": "id",
+				"value": "a:GrpHdr/a:MsgId"
+			},
+			{
+				"name": "orgnlAmt",
+				"value": "a:GrpHdr/a:TtlIntrBkSttlmAmt"
+			},
+			{
+				"name": "FinInstnId",
+				"value": "a:GrpHdr/a:InstgAgt/a:FinInstnId/a:BIC"
+			},
+			{
+				"name": "nbtxs",
+				"value": "a:GrpHdr/a:NbOfTxs"
+			}],
+			"rule": "$params['nbtxs'] != $operation_index"
+		},
 		{
 			"comment": "reject whole bulk - all Tx rejected - B09",
 			"fail": "yes",
@@ -71,39 +54,9 @@
 			}],
 			"rule": "$nbfailed == $operation_index"
 		},
-    {
-			"comment": "reject whole bulk - Duplicate MSGID - B14",
-			"fail": "yes",
-			"template": "reject_bulk_tot_B14.xml",
-			"params": [{
-				"name": "id",
-				"value": "a:GrpHdr/a:MsgId"
-			},
-			{
-				"name": "orgnlAmt",
-				"value": "a:GrpHdr/a:TtlIntrBkSttlmAmt"
-			}],
-			"noop" : "true",
-			"rule" : "$params['orgnlAmt']==='12345'"
-		},
-    {
-			"comment": "reject whole bulk - Amount 0 - B13",
-			"fail": "yes",
-			"template": "reject_bulk_tot_B13.xml",
-			"params": [{
-				"name": "id",
-				"value": "a:GrpHdr/a:MsgId"
-			},
-			{
-				"name": "orgnlAmt",
-				"value": "a:GrpHdr/a:TtlIntrBkSttlmAmt"
-			}],
-			"noop" : "true",
-			"rule" : "$params['orgnlAmt']==='0'"
-		},
 		{
 			"comment": "reject - partial reject - B01",
-			"fail": "no",
+			"fail": "yes",
 			"template": "reject_bulk_part_B01.xml",
 			"params": [{
 				"name": "id",
@@ -144,7 +97,7 @@
 				"value": "a:GrpHdr/a:NbOfTxs"
 			}],
 			"noop" : "true",
-			"rule": "$nbfailed = 0"
+			"rule": "$countErrors > 0"
 		},
 		{
 			"comment" : "default rule",
@@ -154,9 +107,42 @@
 			"rule" : "true"
 		}
 	],
-	"oprules" : [
+	"oprules" : [{
+			"comment": "reject EUR >5.0 payment",
+			"fail": "yes",
+			"template": "payment_rjct.xml",
+			"params": [{
+				"name": "pmtid",
+				"value": "a:PmtId/a:TxId"
+			},
+			{
+				"name": "pmtinstrid",
+				"value": "a:PmtId/a:InstrId"
+			},
+			{
+				"name": "pmtref",
+				"value": "a:PmtId/a:EndToEndId"
+			},
+			{
+				"name": "DbtrAgt",
+				"value": "a:DbtrAgt/a:FinInstnId/a:BIC"
+			},
+			{
+				"name": "CdtrAgt",
+				"value": "a:CdtrAgt/a:FinInstnId/a:BIC"
+			},
+			{
+				"name": "amt",
+				"value": "a:IntrBkSttlmAmt"
+			},
+			{
+				"name": "IBAN",
+				"value": "a:DbtrAcct/a:Id/a:IBAN"
+			}],
+			"rule": "floatval($opparams['amt'])>5.0"
+		},
 		{
-			"comment" : "reject payment on BIC BPMIITM1XXX",
+			"comment" : "reject payment on IBAN",
 			"fail" : "yes",
 			"template" : "payment_rjct.xml",
 			"params" : [{
@@ -188,7 +174,7 @@
 				"value" : "a:DbtrAcct/a:Id/a:IBAN"
 			}
 			],
-			"rule" : "$opparams['CdtrAgt']==='BPMIITM1XXX'"
+			"rule" : "$opparams['IBAN']==='FR29816622692981662269298166226926'"
 		},
 		{
 			"comment" : "default oprule",
@@ -215,13 +201,14 @@
 				}, {
 					"name" : "ref",
 					"value" : "r:FileRef"
-				}				
+				}
+				
 			],
 			"nobulk" : "true",
 			"rule" : "$bulk_index > 10"
 		},
 		{
-			"comment" : "file rule R18",
+			"comment" : "file rule 18",
 			"template" : "outheader.xml",
 			"params" : [{
 					"name" : "error",
@@ -247,29 +234,7 @@
 			"rule" : "$params['nbbulks'] != $bulk_index"
 		},
 		{
-			"comment" : "file rule A01",
-			"template" : "outheader.xml",
-			"params" : [{
-					"name" : "error",
-					"value" : "A01"
-				}, {
-					"name" : "receiver",
-					"value" : "r:RcvgInst"
-				}, {
-					"name" : "sender",
-					"value" : "r:SndgInst"
-				}, {
-					"name" : "filedate",
-					"value" : "r:FDtTm"
-				}, {
-					"name" : "ref",
-					"value" : "r:FileRef"
-				}
-			],
-			"rule" : "(($countErrors == 0)&&($nbfailed > 0))||(($countErrors < $bulk_index)&&($countErrors>0))"
-		},
-		{
-			"comment" : "file rule R23",
+			"comment" : "file rule 23",
 			"template" : "outheader.xml",
 			"params" : [{
 					"name" : "error",
@@ -290,6 +255,28 @@
 			],
 			"nobulk" : "false",
 			"rule" : "$countErrors == $bulk_index"
+		},
+		{
+			"comment" : "file rule A01",
+			"template" : "outheader.xml",
+			"params" : [{
+					"name" : "error",
+					"value" : "A01"
+				}, {
+					"name" : "receiver",
+					"value" : "r:RcvgInst"
+				}, {
+					"name" : "sender",
+					"value" : "r:SndgInst"
+				}, {
+					"name" : "filedate",
+					"value" : "r:FDtTm"
+				}, {
+					"name" : "ref",
+					"value" : "r:FileRef"
+				}
+			],
+			"rule" : "(($countErrors < $bulk_index)&&($countErrors>0))"
 		}, 
 		{
 			"comment" : "file rule A00",
@@ -312,28 +299,6 @@
 				}
 			],
 			"rule" : "$countErrors == 0"
-		},
-                {
-                        "comment" : "default",
-                        "template" : "outheader.xml",
-                        "params" : [{
-                                        "name" : "error",
-                                        "value" : "A00"
-                                }, {
-                                        "name" : "receiver",
-                                        "value" : "r:RcvgInst"
-                                }, {
-                                        "name" : "sender",
-                                        "value" : "r:SndgInst"
-                                }, {
-                                        "name" : "filedate",
-                                        "value" : "r:FDtTm"
-                                }, {
-                                "name" : "ref",
-                                        "value" : "r:FileRef"
-                                }
-                        ],
-                        "rule" : "TRUE"
-                }
+		}
 	]
 }

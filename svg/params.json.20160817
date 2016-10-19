@@ -1,0 +1,184 @@
+{
+	"errorHeaderTemplate": "errheader.xml",
+	"partialHeaderTemplate" : "outheader.xml",
+	"outHeaderTemplate": "outheader.xml",
+	"defaultPacs212": "default.xml",
+	"rules": [{
+		"comment": "rule pass",
+		"fail": "no",
+		"params": [{
+			"name": "id",
+			"value": "a:GrpHdr/a:MsgId"
+		}],
+		"rule": "$params['id']==='2016071913503467324730'"
+	},
+	{
+		"comment": "reject whole bulk - error in nbOperations - B03",
+		"fail": "yes",
+		"template": "reject_bulk_tot_B03.xml",
+		"params": [{
+			"name": "id",
+			"value": "a:GrpHdr/a:MsgId"
+		},
+		{
+			"name": "orgnlAmt",
+			"value": "a:GrpHdr/a:TtlIntrBkSttlmAmt"
+		},
+		{
+			"name": "FinInstnId",
+			"value": "a:GrpHdr/a:InstgAgt/a:FinInstnId/a:BIC"
+		},
+		{
+			"name": "nbtxs",
+			"value": "a:GrpHdr/a:NbOfTxs"
+		}],
+		"rule": "$params['nbtxs'] != $operation_index"
+	},
+	{
+		"comment": "reject whole bulk - all Tx rejected - B09",
+		"fail": "yes",
+		"template": "reject_bulk_tot_B09.xml",
+		"params": [{
+			"name": "id",
+			"value": "a:GrpHdr/a:MsgId"
+		},
+		{
+			"name": "orgnlAmt",
+			"value": "a:GrpHdr/a:TtlIntrBkSttlmAmt"
+		},
+		{
+			"name": "FinInstnId",
+			"value": "a:GrpHdr/a:InstgAgt/a:FinInstnId/a:BIC"
+		},
+		{
+			"name": "nbtxs",
+			"value": "a:GrpHdr/a:NbOfTxs"
+		}],
+		"rule": "$nbfailed == $operation_index"
+	},
+	{
+		"comment": "reject - partial reject - B01",
+		"fail": "yes",
+		"template": "reject_bulk_part_B01.xml",
+		"params": [{
+			"name": "id",
+			"value": "a:GrpHdr/a:MsgId"
+		},
+		{
+			"name": "orgnlAmt",
+			"value": "a:GrpHdr/a:TtlIntrBkSttlmAmt"
+		},
+		{
+			"name": "FinInstnId",
+			"value": "a:GrpHdr/a:InstgAgt/a:FinInstnId/a:BIC"
+		},
+		{
+			"name": "nbtxs",
+			"value": "a:GrpHdr/a:NbOfTxs"
+		}],
+		"rule": "$nbfailed > 0"
+	},
+	{
+		"comment": "Bulk with all ACCP operations",
+		"fail": "yes",
+		"template": "accp_bulk_tot_B00.xml",
+		"params": [{
+			"name": "id",
+			"value": "a:GrpHdr/a:MsgId"
+		},
+		{
+			"name": "orgnlAmt",
+			"value": "a:GrpHdr/a:TtlIntrBkSttlmAmt"
+		},
+		{
+			"name": "FinInstnId",
+			"value": "a:GrpHdr/a:InstgAgt/a:FinInstnId/a:BIC"
+		},
+		{
+			"name": "nbtxs",
+			"value": "a:GrpHdr/a:NbOfTxs"
+		}],
+		"noop" : "true",
+		"rule": "$countErrors > 0"
+	},
+	{
+		"comment": "default rule",
+		"fail": "no",
+		"params": [],
+		"rule": "true"
+	}],
+	"oprules": [{
+		"comment": "reject EUR >5.0 payment",
+		"fail": "yes",
+		"template": "payment_rjct.xml",
+		"params": [{
+			"name": "pmtid",
+			"value": "a:PmtId/a:TxId"
+		},
+		{
+			"name": "pmtinstrid",
+			"value": "a:PmtId/a:InstrId"
+		},
+		{
+			"name": "pmtref",
+			"value": "a:PmtId/a:EndToEndId"
+		},
+		{
+			"name": "DbtrAgt",
+			"value": "a:DbtrAgt/a:FinInstnId/a:BIC"
+		},
+		{
+			"name": "CdtrAgt",
+			"value": "a:CdtrAgt/a:FinInstnId/a:BIC"
+		},
+		{
+			"name": "amt",
+			"value": "a:IntrBkSttlmAmt"
+		},
+		{
+			"name": "IBAN",
+			"value": "a:DbtrAcct/a:Id/a:IBAN"
+		}],
+		"rule": "floatval($opparams['amt'])>5.0"
+	},
+	{
+		"comment": "reject payment on IBAN",
+		"fail": "yes",
+		"template": "payment_rjct.xml",
+		"params": [{
+			"name": "pmtid",
+			"value": "a:PmtId/a:TxId"
+		},
+		{
+			"name": "pmtinstrid",
+			"value": "a:PmtId/a:InstrId"
+		},
+		{
+			"name": "pmtref",
+			"value": "a:PmtId/a:EndToEndId"
+		},
+		{
+			"name": "DbtrAgt",
+			"value": "a:DbtrAgt/a:FinInstnId/a:BIC"
+		},
+		{
+			"name": "CdtrAgt",
+			"value": "a:CdtrAgt/a:FinInstnId/a:BIC"
+		},
+		{
+			"name": "amt",
+			"value": "a:IntrBkSttlmAmt"
+		},
+		{
+			"name": "IBAN",
+			"value": "a:DbtrAcct/a:Id/a:IBAN"
+		}],
+		"rule": "$opparams['IBAN']==='FR29816622692981662269298166226926'"
+	},
+	{
+		"comment": "default oprule",
+		"fail": "no",
+		"params": [],
+		"rule": "true"
+	}]
+}

@@ -1,0 +1,32 @@
+		<TxInfAndSts xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.002.001.03S2">
+			<StsId>VSCT<?= gmdate('ymd') . str_pad(rand(1,1000000000000000000000000),25,'0',STR_PAD_LEFT)?></StsId>
+			<OrgnlEndToEndId><?= $opparams['pmtref'] ?></OrgnlEndToEndId>
+			<OrgnlTxId><?= $opparams['pmtid'] ?></OrgnlTxId>
+			<TxSts>RJCT</TxSts>
+			<StsRsnInf>
+				<Orgtr>
+					<Id>
+						<OrgId>
+							<BICOrBEI>EBAPFRP0XXX</BICOrBEI>
+						</OrgId>
+					</Id>
+				</Orgtr>
+				<Rsn>
+					<Prtry>PY01</Prtry>
+				</Rsn>
+			</StsRsnInf>
+			<OrgnlTxRef>
+				<IntrBkSttlmAmt Ccy="EUR"><?= $opparams['amt'] ?></IntrBkSttlmAmt>
+				<IntrBkSttlmDt><?= gmdate('Y-m-d') ?></IntrBkSttlmDt>
+				<DbtrAgt>
+					<FinInstnId>
+						<BIC><?= $opparams['DbtrAgt'] ?></BIC>
+					</FinInstnId>
+				</DbtrAgt>
+                <CdtrAgt>
+                    <FinInstnId>
+                        <BIC><?= $opparams['CdtrAgt'] ?></BIC>
+                    </FinInstnId>
+                </CdtrAgt>
+			</OrgnlTxRef>
+		</TxInfAndSts>

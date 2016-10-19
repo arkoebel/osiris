@@ -1,24 +1,24 @@
 <S2SCTCvf:FIToFIPmtStsRptS2 xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.002.001.03S2" xmlns:S2SCTCvf="urn:S2SCTCvf:xsd:$SCTCvfBlkCredTrf">
 		<GrpHdr>
-			<MsgId>VSCT0909290000152000000000000000001</MsgId>
-			<CreDtTm>2009-09-28T15:09:48</CreDtTm>
+			<MsgId>VSCT<?= gmdate('ymd') . str_pad(rand(1,1000000000000000000000000),25,'0',STR_PAD_LEFT)?></MsgId>
+			<CreDtTm><?= gmdate('Y-m-d\Th:i:s\Z') ?></CreDtTm>
 		</GrpHdr>
 		<OrgnlGrpInfAndSts>
-			<OrgnlMsgId>20060607000001</OrgnlMsgId>
+			<OrgnlMsgId><?= $params['id']?></OrgnlMsgId>
 			<OrgnlMsgNmId>pacs.008</OrgnlMsgNmId>
-			<OrgnlNbOfTxs><?= $nbfailed ?></OrgnlNbOfTxs>
-			<OrgnlCtrlSum>7.45</OrgnlCtrlSum>
+			<OrgnlNbOfTxs>0</OrgnlNbOfTxs>
+			<OrgnlCtrlSum>0</OrgnlCtrlSum>
 			<GrpSts>RJCT</GrpSts>
 			<StsRsnInf>
 				<Orgtr>
 					<Id>
 						<OrgId>
-							<BICOrBEI>ZYDOFRP0</BICOrBEI>
+							<BICOrBEI>EBAPFRP0XXX</BICOrBEI>
 						</OrgId>
 					</Id>
 				</Orgtr>
 				<Rsn>
-					<Prtry>B09</Prtry>
+					<Prtry>B03</Prtry>
 				</Rsn>
 			</StsRsnInf>
 		</OrgnlGrpInfAndSts>

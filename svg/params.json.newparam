@@ -1,0 +1,95 @@
+{
+	"errorHeaderTemplate" : "errheader.xml",
+	"partialHeaderTemplate" : "errheader.xml",
+	"outHeaderTemplate" : "outheader.xml",
+	"defaultPacs212" : "default.xml",
+	"rules" : [{
+			"comment" : "rule pass",
+			"fail" : "no",
+			"params" : [{
+					"name" : "id",
+					"value" : "a:GrpHdr/a:MsgId"
+				}
+			],
+			"rule" : "$params['id']==='2016071913503467324730'"
+		}, {
+			"comment" : "reject whole bulk -- nooperations",
+			"fail" : "yes",
+			"template" : "reject_bulk.xml",
+			"params" : [{
+					"name" : "id",
+					"value" : "a:GrpHdr/a:MsgId"
+				}, {
+					"name" : "nbtxs",
+					"value" : "a:GrpHdr/a:NbOfTxs"
+				}
+			],
+			"noop" : "true",
+			"rule" : "$nbfailed > 0"
+		},{
+			"comment" : "reject whole bulk -- partial reject",
+			"fail" : "yes",
+			"template" : "reject_bulk.xml",
+			"params" : [{
+					"name" : "id",
+					"value" : "a:GrpHdr/a:MsgId"
+				}, {
+					"name" : "nbtxs",
+					"value" : "a:GrpHdr/a:NbOfTxs"
+				}
+			],
+			"rule" : "$nbfailed > 0"
+		}, {
+			"comment" : "default rule",
+			"fail" : "no",
+			"params" : [
+			],
+			"rule" : "true"
+		}
+	],
+	"oprules" : [{
+			"comment" : "reject EUR >5.0 payment",
+			"fail" : "yes",
+			"template" : "payment_rjed.xml",
+			"params" : [{
+					"name" : "pmtid",
+					"value" : "a:PmtId/a:TxId"
+				}, {
+					"name" : "pmtref",
+					"value" : "a:PmtId/a:EndToEndId"
+				}, {
+					"name" : "amt",
+					"value" : "a:IntrBkSttlmAmt"
+				}, {
+					"name" : "IBAN",
+					"value" : "a:DbtrAcct/a:Id/a:IBAN"
+				}
+			],
+			"rule" : "floatval($opparams['amt'])>5.0"
+		}, {
+			"comment" : "reject payment on IBAN",
+			"fail" : "yes",
+			"template": "payment_rjed.xml",
+			"params" : [{
+					"name" : "pmtid",
+					"value" : "a:PmtId/a:TxId"
+				}, {
+					"name" : "pmtref",
+					"value" : "a:PmtId/a:EndToEndId"
+				}, {
+					"name" : "amt",
+					"value" : "a:IntrBkSttlmAmt"
+				}, {
+					"name" : "IBAN",
+					"value" : "a:DbtrAcct/a:Id/a:IBAN"
+				}
+			],
+			"rule" : "$opparams['IBAN']==='FR29816622692981662269298166226926'"
+		}, {
+			"comment" : "default oprule",
+			"fail" : "no",
+			"params" : [],
+			"rule" : "true"
+		}
+	]
+}

@@ -1,0 +1,25 @@
+<S2SCTCvf:FIToFIPmtStsRptS2 xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.002.001.03S2" xmlns:S2SCTCvf="urn:S2SCTCvf:xsd:$SCTCvfBlkCredTrf">
+		<GrpHdr>
+			<MsgId>VSCT<?= gmdate('ymd') . str_pad(rand(1,1000000000000000000000000),25,'0',STR_PAD_LEFT)?></MsgId>
+			<CreDtTm><?= gmdate('Y-m-d\Th:i:s\Z') ?></CreDtTm>
+		</GrpHdr>
+		<OrgnlGrpInfAndSts>
+			<OrgnlMsgId><?= $params['id']?></OrgnlMsgId>
+			<OrgnlMsgNmId>pacs.008</OrgnlMsgNmId>
+			<OrgnlNbOfTxs><?= $params['nbtxs'] ?></OrgnlNbOfTxs>
+			<OrgnlCtrlSum><?= $params['orgnlAmt'] ?></OrgnlCtrlSum>
+			<GrpSts>ACCP</GrpSts>
+			<StsRsnInf>
+				<Orgtr>
+					<Id>
+						<OrgId>
+							<BICOrBEI>EBAPFRP0XXX</BICOrBEI>
+						</OrgId>
+					</Id>
+				</Orgtr>
+				<Rsn>
+					<Prtry>B00</Prtry>
+				</Rsn>
+			</StsRsnInf>
+		</OrgnlGrpInfAndSts>
+	</S2SCTCvf:FIToFIPmtStsRptS2>

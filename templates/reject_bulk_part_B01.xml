@@ -1,0 +1,51 @@
+<S2SCTCvf:FIToFIPmtStsRptS2 xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.002.001.03S2" xmlns:S2SCTCvf="urn:S2SCTCvf:xsd:$SCTCvfBlkCredTrf">
+		<GrpHdr>
+			<MsgId>VSCT<?= gmdate('ymd') . str_pad(rand(1,1000000000000000000000000),25,'0',STR_PAD_LEFT)?></MsgId>
+			<CreDtTm><?= gmdate('Y-m-d\Th:i:s\Z') ?></CreDtTm>
+		</GrpHdr>
+		<OrgnlGrpInfAndSts>
+			<OrgnlMsgId><?= $params['id']?></OrgnlMsgId>
+			<OrgnlMsgNmId>pacs.008</OrgnlMsgNmId>
+			<OrgnlNbOfTxs><?= $operation_index ?></OrgnlNbOfTxs>
+			<OrgnlCtrlSum><?= $params['orgnlAmt'] ?></OrgnlCtrlSum>
+			<GrpSts>PART</GrpSts>
+			<StsRsnInf>
+				<Orgtr>
+					<Id>
+						<OrgId>
+							<BICOrBEI>EBAPFRP0XXX</BICOrBEI>
+						</OrgId>
+					</Id>
+				</Orgtr>
+				<Rsn>
+					<Prtry>B01</Prtry>
+				</Rsn>
+			</StsRsnInf>
+			<NbOfTxsPerSts>
+				<DtldNbOfTxs><?= $operation_index - $nbfailed ?></DtldNbOfTxs>
+				<DtldSts>ACCP</DtldSts>
+				<DtldCtrlSum><?
+$operationsxml->registerXPathNamespace('u','urn:iso:std:iso:20022:tech:xsd:pacs.008.001.02');
+$operationsxml->registerXPathNamespace('z','urn:iso:std:iso:20022:tech:xsd:pacs.002.001.03S2');
+$uu = $operationsxml->xpath('z:TxInfAndSts/z:OrgnlTxRef/z:IntrBkSttlmAmt');
+$ss = 0;
+foreach ($uu as $node) {
+    $ss += floatval($node);
+}
+echo $ss; ?></DtldCtrlSum>
+			</NbOfTxsPerSts>
+			<NbOfTxsPerSts>
+				<DtldNbOfTxs><?= $nbfailed ?></DtldNbOfTxs>
+				<DtldSts>RJCT</DtldSts>
+				<DtldCtrlSum><?
+$operationsxml->registerXPathNamespace('u','urn:iso:std:iso:20022:tech:xsd:pacs.008.001.02');
+$operationsxml->registerXPathNamespace('z','urn:iso:std:iso:20022:tech:xsd:pacs.002.001.03S2');
+$uu = $operationsxml->xpath('z:TxInfAndSts/z:OrgnlTxRef/z:IntrBkSttlmAmt');
+$ss = 0;
+foreach ($uu as $node) {
+    $ss += floatval($node);
+}
+echo $ss; ?></DtldCtrlSum>
+			</NbOfTxsPerSts>
+		</OrgnlGrpInfAndSts>
+	</S2SCTCvf:FIToFIPmtStsRptS2>

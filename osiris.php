@@ -240,7 +240,7 @@ while(true){
 				mlog($file,'F',"File Rule #$file_rule_index : " . $rule['comment'] . " Rule=" . $rule['rule']);
 					
 				$ret = eval('$aaa = ' . $rule['rule'] . ';');
-					
+			mlog($file,'F','AAA ' . $countErrors . ' ' . $nbfailed . ' ' . $bulk_index );		
 				if(eval('return ' . $rule['rule'] . ';')){
 					mlog($file,'F','Matched file rule ' . $rule['comment']);
 					mlog($file,'F','Params : ' . print_r($params,true));
@@ -277,21 +277,20 @@ while(true){
 				mlog($file,'F','Output validated OK with ' . $pp['structures'][0]['outschema']);
 			}else{
 				mlog($file,'F','Output didn\'t validate with ' . $pp['structures'][0]['outschema']);
-                                var_dump($header->asXml());
 				die(print_r(libxml_get_errors(),true));
 			}
-			var_dump($header->asXml());
+			//var_dump($header->asXml());
 			
-			//$header->asXml('out/' . $outref . '.V');
+			$header->asXml('out/' . $outref . '.V');
 			mlog($file,'F','Wrote ' . $outref . '.V');
 			
-			//if(!rename("$infolder/$file","$infolder/done/$file"))
-			//	die('Unable to move $file ==> Exiting');
+			if(!rename("$infolder/$file","$infolder/done/$file"))
+				die('Unable to move $file ==> Exiting');
 		
-			//sleep($delay);
+			sleep($delay);
 		}
 	}
-break;
+//break;
 	echo "Sleeping " . 10 * $delay . "s...\n";
 	sleep(10 * $delay);
 }
