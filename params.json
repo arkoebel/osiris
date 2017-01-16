@@ -266,7 +266,7 @@
 					"value" : "r:FileRef"
 				}
 			],
-			"rule" : "(($countErrors == 0)&&($nbfailed > 0))||(($countErrors < $bulk_index)&&($countErrors>0))"
+			"rule" : "(($countErrors == 0)&&($operationErrors > 0))||(($countErrors < $bulk_index)&&($countErrors>0))"
 		},
 		{
 			"comment" : "file rule R23",

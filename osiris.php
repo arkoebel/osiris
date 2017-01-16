@@ -83,6 +83,8 @@ while(true){
 			
 			$head = simplexml_load_string('<root xmlns="' . $pp['structures'][0]['bulks'][0]['namespace'] . '"/>');
 			$countErrors = 0;
+			$operationErrors = 0;
+                        $totalOperations = 0;
 			$outdoc = dom_import_simplexml($head);
 			
 			$bulk_index=0;
@@ -107,7 +109,8 @@ while(true){
 						$operation->registerXPathNamespace('a',$pp['structures'][0]['bulks'][$type]['namespace']);
 						$operation_index++;
 						$operation_rule_index=0;
-						
+						$totalOperations++;
+
 						foreach($pp['oprules'] as $rule){
 							$operation_rule_index++;     
 							$opparams = array();
@@ -127,6 +130,7 @@ while(true){
 								if($rule['fail']==='yes'){
 									mlog($file,'O    ','Rule is set to fail.');
 									$nbfailed++;
+                                                                        $operationErrors++;
 								}else{
 									mlog($file,'O    ','Operation rule is set to pass');
 								}
@@ -221,7 +225,9 @@ while(true){
 			//die(print_r($outdoc->ownerDocument->saveXML(),true));
 
 			} // end bulk types loop
-			mlog($file,'B  ','Bulk failed = ' . $countErrors . ' out of ' . $bulk_index . "\n");
+                        echo "\n";
+			mlog($file,'F',"Bulk failed = " . $countErrors . ' out of ' . $bulk_index );
+			mlog($file,'F','Operations failed = ' . $operationErrors . ' out of ' . $totalOperations . "\n");
 			
 			$file_rule_index = 0;
 			//loop on header rules
@@ -234,16 +240,16 @@ while(true){
 						$params[$parm['name']] = $parm['value'];
 					else
 						$params[$parm['name']] =  (string) $aa[0];
-					echo $parm['name'] . ' : ' . $params[$parm['name']] . "\n";
+				//	echo $parm['name'] . ' : ' . $params[$parm['name']] . "\n";
 				}
 				
 				mlog($file,'F',"File Rule #$file_rule_index : " . $rule['comment'] . " Rule=" . $rule['rule']);
 					
 				$ret = eval('$aaa = ' . $rule['rule'] . ';');
-			mlog($file,'F','AAA ' . $countErrors . ' ' . $nbfailed . ' ' . $bulk_index );		
+			//mlog($file,'F','AAA ' . $countErrors . ' ' . $nbfailed . ' ' . $bulk_index );		
 				if(eval('return ' . $rule['rule'] . ';')){
 					mlog($file,'F','Matched file rule ' . $rule['comment']);
-					mlog($file,'F','Params : ' . print_r($params,true));
+					mlog($file,'F','Params : ' . var_dump($params));
 					ob_start();
 					include 'templates/' . $rule['template'];
 					$xml = ob_get_contents();
